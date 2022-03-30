@@ -1,4 +1,319 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Another day]]></title><description><![CDATA[Blog posted about ...]]></description><link>https://geniein.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 29 Mar 2022 15:21:15 GMT</lastBuildDate><item><title><![CDATA[Javascript의 데이터 타입과 메모리]]></title><description><![CDATA[데이터 타입(Data type)과 메모리 데이터 타입 메모리 영역   Stack Memory Heap Memory 기본형 데이터 참조형 데이터 정적 할당 동적 할당 기본형 데이터 자바스크립트에서 기본형 데이터는 불변성(Immutability…]]></description><link>https://geniein.github.io/development/js_datatype_memory/</link><guid isPermaLink="false">https://geniein.github.io/development/js_datatype_memory/</guid><pubDate>Tue, 29 Mar 2022 18:10:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;데이터-타입data-type과-메모리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85data-type%EA%B3%BC-%EB%A9%94%EB%AA%A8%EB%A6%AC&quot; aria-label=&quot;데이터 타입data type과 메모리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 타입(Data type)과 메모리&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Another day]]></title><description><![CDATA[Blog posted about ...]]></description><link>https://geniein.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 30 Mar 2022 14:17:35 GMT</lastBuildDate><item><title><![CDATA[Javascript의 this]]></title><link>https://geniein.github.io/development/js_this/</link><guid isPermaLink="false">https://geniein.github.io/development/js_this/</guid><pubDate>Wed, 30 Mar 2022 21:00:00 GMT</pubDate><content:encoded></content:encoded></item><item><title><![CDATA[Javascript의 호출스택과 이벤트루프]]></title><description><![CDATA[자바스크립트의 호출스택과 이벤트루프는 JS만들어진 App들이 어떻게 동작하는지 이해하는 핵심요소이다. 조금 더 효율적인 설명을 위해 내가 참고했던 자료들을 직접 들고와서 설명하고자 한다.
+(JavaScript’s Call Stack, Callback…]]></description><link>https://geniein.github.io/development/js_callstack_eventloop/</link><guid isPermaLink="false">https://geniein.github.io/development/js_callstack_eventloop/</guid><pubDate>Wed, 30 Mar 2022 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;자바스크립트의 호출스택과 이벤트루프는 JS만들어진 App들이 어떻게 동작하는지 이해하는 핵심요소이다.&lt;br&gt;
+조금 더 효율적인 설명을 위해 내가 참고했던 자료들을 직접 들고와서 설명하고자 한다.
+&lt;strong&gt;(JavaScript’s Call Stack, Callback Queue, and Event Loop) , (How JavaScript works: an overview of the engine, the runtime, and the call stack)&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 62.66666666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAADjUlEQVQ4y1WSe0xbZRjGn16clw0Mxss0U6aLMdkyHVmGRmMyWGI0zpgtgnEdydYoTF0kcyrIiC7GTGOyLSkkDBjMDRZhMOj99PS0pVfaroW2pxd6gwJrRwpjm4ZFNIbXA/zBeJMn3/33vd/7fLiXLMbC+Au4FatANirDcpxvZiSV76x0oWjRS1yDzyLku4+Mj4Hu+lU4mWvAvqSwWo87ulNYF/cSq8BstBK5sQrRdA9EA711yI481TI+/OgZTf9X4C3bpV7XDHJB7hlNX1eFAHz96apuoKAWNNq4HnhXAP479TyIAJrEhnioschgHDzoNpT/1t91yGTimP3p6PubKIKH6zuH2YbuUfru9xtLja36dxtaDfihnZWsB8aLMcNvhU7dIy77hDDQ2/NajA8vWp2xc5NTs3+n0+N0VtH0knDhBvmFQKL8/AR9qBijxkt2eX2nE3WdLskVI4/d7x1ZyzAxvA2MUiV+8jmC5o/uPXcy6dtuj2Mwm51eyuVuLXZ0NG0XgKIBR4Lv9+Wp332TuvReGTM0DN2QV0p0EZe/KVvLkCYeg5FTio9fEDLUDu6ZyWfuO2zWAZPJTE6nk9outu3AR5eKI6mbaVpaXPpv4Tb9M+mu+kk1hVZuXLJSLnqghsIQbVc40fLktZ6Wnal0MsgwOgXHsTNW61C2vf2XV3Z/uq8wEp/ILfx5l870Ban0RzeV1rFfv3k2gzLFtGTL3uo1l/WWAzgpmObxQBr0Nm+Oj6jfDvnVJT7HqSKnsfbxvxIvPrKghtThcsuyKf5ESZ3lHA45jQ8d1n2ML+LAl2lxwRvHVoHLDks/D4pwYAyojG850eYu6VQ6v9VbPAeJSKQ/DQRSJL7sJEnTdY9wwlGw7BAqBZ2cA34V2p8J0rfqV4Erb5c5gCNW4Ki9EDubN2GXbrMAQ5fKiuDoKFKpCeQyafTZhWy22ouIwrih7cDRjqT4tF6A9hI27m1YBRa++gHMJqPYZDSAY5lyjuNCgiF+h92mtFptcrfbLed5Xh4MBuUBQclYqGp0xF+t0mi3sQYGgkQbZX14ovTwGtBut0ttNhsslqHvLRYLCRCy2e1kMZspzPM0Pz9P+XyeZmcFzc1RLpcjr9d7zOfzwe/3S9d97KJd+6HVakQajRpKpWqHXqerNZtMnxmNxhqWNdS4XK6aWDRaEw6HVxSJRKoDgcBxhmFeZlkWwj7Rg7z/AWQNB7+qEaVOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;js&quot;
+        title=&quot;js&quot;
+        src=&quot;/static/46d9d93b4af7bab1c5485b8e4e73fa66/5a190/js-event-loop-explained.png&quot;
+        srcset=&quot;/static/46d9d93b4af7bab1c5485b8e4e73fa66/5a46d/js-event-loop-explained.png 300w,
+/static/46d9d93b4af7bab1c5485b8e4e73fa66/0a47e/js-event-loop-explained.png 600w,
+/static/46d9d93b4af7bab1c5485b8e4e73fa66/5a190/js-event-loop-explained.png 800w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;
+자바스크립트에서 코드가 동작하는 순서는 위 그림과 같다.&lt;/p&gt;
+&lt;h3 id=&quot;호출스택call-stack&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%98%B8%EC%B6%9C%EC%8A%A4%ED%83%9Dcall-stack&quot; aria-label=&quot;호출스택call stack permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;호출스택(Call Stack)&lt;/h3&gt;
+&lt;p&gt;호출스택이란 프로그램이 동작하기 위해 불러져서 처리되는 순서를 Stack형태의 데이터구조화 한것이다.
+Stack은 LIFO(Last In First Out)이기에 데이터블럭을 밑에서 부터 쌓아 위로 빠져나가는 형태를 볼수 있다.
+밑에 예제 코드와 도식을 보면 알수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;x&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; y&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; x &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; y
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;printSquare&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; s &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;printSquare&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;먼저 이전 단원에서 알아본 실행컨텍스트를 생각해보고 밑에 Call Stack을 도식을 봐보도록 하겠습니다.
+예제 코드가 실행되면 먼저 &lt;code class=&quot;language-text&quot;&gt;전역컨텍스트(anonymous)&lt;/code&gt; Call Stack에 들어 갑니다. 그런 다음 &lt;code class=&quot;language-text&quot;&gt;LexicalEnvironment&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;EnvironmentRecord(Hoisting)&lt;/code&gt;통해
+&lt;code class=&quot;language-text&quot;&gt;multiply&lt;/code&gt;과 &lt;code class=&quot;language-text&quot;&gt;preintSquare&lt;/code&gt;이 선언되고 구문 마지막의 &lt;code class=&quot;language-text&quot;&gt;printSquare(5)&lt;/code&gt;통해 printSquare라는 &lt;code class=&quot;language-text&quot;&gt;함수 컨텍스트(Function Context)&lt;/code&gt;생성 되고 이와 같은 과정을 반복합니다.&lt;br&gt;
+그럼 밑에있는 그림을 보면 &lt;code class=&quot;language-text&quot;&gt;전역컨텍스트&lt;/code&gt;가 Call Stack에 안들어가 있습니다. &lt;code class=&quot;language-text&quot;&gt;전역컨텍스트&lt;/code&gt;는 보통 시작과 끝이기에 생략해서 표현하곤 합니다.&lt;br&gt;
+Step1, 첫번째 함수컨텍스트인 printSquare(5)가 들어옵니다.&lt;br&gt;
+Step2, printSquare Context를 처리하는 중 multiply(x,x)라는 함수를 만나 또 다른 &lt;code class=&quot;language-text&quot;&gt;함수 컨텍스트&lt;/code&gt;(multiply(x,x))를 생성합니다. 그리고 &lt;code class=&quot;language-text&quot;&gt;multiply Context&lt;/code&gt;에서 return x * y 통해 5*5를 리턴하고 &lt;code class=&quot;language-text&quot;&gt;multiply context&lt;/code&gt;는 종료되며 사라집니다.
+Step3, s값은 25가 되고 console.log(s)를 통해 25가 출력됩니다.&lt;br&gt;
+Step4, &lt;code class=&quot;language-text&quot;&gt;printSquare Context&lt;/code&gt; 또한 종료되며 사라집니다.&lt;br&gt;
+Step5, 모든 Context가 종료되면서 Call Stack 또한 Empty가 됩니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1024px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAsTAAALEwEAmpwYAAABPklEQVQoz6WT3aqCUBBG9/s/iUKCeCG9h4ngjRdpaf4dtdLUOmcdBzYS0k0D0drj981Ms039fhGKz2sJnRJ+Pp95nmdZNs/zm0az+lD4reh252EY+r6X8+PxuN/vwsMSwiQ13243ZP9mvpjtdDpdr1fhJElgpGmans9nbJRGwBHgGMfx5XJBrJqmGceRMj9LCJOsqmqaJsau6xoG2AKARgYEVNu2iDh3XYdH1gPzDDWMgLysgCSPYCzk382a0VEIA0nptm1ej6q7lWUpq8ZAXi6PpEyx0RmdbBLgp8qGATTbnaWhlCdc1zVN0/d93hDHcQzDCIIATb1EURRchJipojDs93vLsjzPowS82+0OhwNmCpEPw/B4PFLItu0oimjIhcmYihrMOS6xZmLNa4HcNkf11R/jtQr9Pn9m/eb/AQMAXrdGXXbrAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ex1&quot;
+        title=&quot;Ex1&quot;
+        src=&quot;/static/d7c88d785b19da93aae77dfff983c660/2bef9/js-event-loop-explained-ex1.png&quot;
+        srcset=&quot;/static/d7c88d785b19da93aae77dfff983c660/5a46d/js-event-loop-explained-ex1.png 300w,
+/static/d7c88d785b19da93aae77dfff983c660/0a47e/js-event-loop-explained-ex1.png 600w,
+/static/d7c88d785b19da93aae77dfff983c660/2bef9/js-event-loop-explained-ex1.png 1024w&quot;
+        sizes=&quot;(max-width: 1024px) 100vw, 1024px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3 id=&quot;이벤트-루프event-loop&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%A3%A8%ED%94%84event-loop&quot; aria-label=&quot;이벤트 루프event loop permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;이벤트 루프(Event Loop)&lt;/h3&gt;
+&lt;p&gt;자바스크립트는 단일 Thread 언어이다. 이는 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;이 하나만 존재하기 때문이다. 하지만 자바스크립트가 구동하는 환경(Runtime)은 싱글 스레드가 아니다. 이벤트 루프가 동작하는 원리르 보면 알수 있다.
+이벤트 루프는 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;에 처리할 코드가 없다면 이후 &lt;code class=&quot;language-text&quot;&gt;Callback Queue(Task Queue)&lt;/code&gt;을 조사하여 처리해야할 데이터가 있다면 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;으로 보낸다.
+그렇다면 &lt;code class=&quot;language-text&quot;&gt;Callback Queue&lt;/code&gt; 데이터는 어떻게 생기는 것일까? 그건 &lt;code class=&quot;language-text&quot;&gt;비동기 콜백(Asynchronous Callback)&lt;/code&gt;에 의해서이다.
+&lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;에서 대표적인 비동기함수인 setTimeout이 들어온 경우 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;에서는 setTimeout이 종료되지만 이 함수는 비동기적으로 해야할 일이 &lt;code class=&quot;language-text&quot;&gt;백그라운드&lt;/code&gt;에서 동작중이다. 이후 처리가 완료되면 데이터를 &lt;code class=&quot;language-text&quot;&gt;Callback Queue&lt;/code&gt;로 보내고 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;이 빌때까지 기달렸다가 Event Loop에 의해 호출된다.&lt;br&gt;
+하나 명확하게 알아야할 것은 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;이 비워있어야만 있어야만 한다는 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/25d69572591487e453578d6aff3264f0/js-event-loop-explained-ex2.gif&quot; alt=&quot;event loop&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;이벤트-루프-예제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%A3%A8%ED%94%84-%EC%98%88%EC%A0%9C&quot; aria-label=&quot;이벤트 루프 예제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;이벤트 루프 예제&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;first&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;second&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;second&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;setTimeout&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;//최소 4ms&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;resolve&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;promise&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;rtn&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;rtn&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;second&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;//result second, first, promise, setTimeout&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;에 setTimeout이 들어오고 (second, 3000)내용을 &lt;code class=&quot;language-text&quot;&gt;백그라운드&lt;/code&gt;에 보내고 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;에서 바로 사라진다.
+그리고 3초 후 &lt;code class=&quot;language-text&quot;&gt;백그라운드&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;Callback Queue&lt;/code&gt;로 second()를 보내고 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;이 비여있으므로 &lt;code class=&quot;language-text&quot;&gt;Event Loop&lt;/code&gt;가 second()를 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;으로 보낸다.
+second()를 전달받은 &lt;code class=&quot;language-text&quot;&gt;Call Stack&lt;/code&gt;은 &lt;code class=&quot;language-text&quot;&gt;second 함수 컨텍스트&lt;/code&gt;를 생성하고 이를 처리한다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;second 함수 컨텍스트&lt;/code&gt;는 console.log를 통해 second를 출력하고 setTimeout에 의해 익명함수 setTimeout이 &lt;code class=&quot;language-text&quot;&gt;백그라운드&lt;/code&gt;로 보내진다.
+그리고 promise를 처리하고 &lt;code class=&quot;language-text&quot;&gt;first 함수 컨텍스트&lt;/code&gt;를 생성한다.&lt;br&gt;
+&lt;strong&gt;-promise는 resolve까지는 동기처리가 되고 then, catch는 비동기이기에 &lt;code class=&quot;language-text&quot;&gt;백그라운드&lt;/code&gt;로 값이 보내진다.&lt;/strong&gt;&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;first 함수 컨텍스트&lt;/code&gt;는 console.log로 first를 출력하고 종료되어 사라진다.
+&lt;code class=&quot;language-text&quot;&gt;first 함수 컨텍스트&lt;/code&gt;종료되면서 &lt;code class=&quot;language-text&quot;&gt;second 함수 컨텍스트&lt;/code&gt; 또한 종료되어 ‘Call Stack&lt;code class=&quot;language-text&quot;&gt;은 비여있는 상태이다. 이때&lt;/code&gt;Event Loop&lt;code class=&quot;language-text&quot;&gt;는&lt;/code&gt;Callback Queue&lt;code class=&quot;language-text&quot;&gt;를 조사하고 여기에 쌓여있는 console.log(&apos;promise&apos;)와 console.log(&apos;setTimeout&apos;)을&lt;/code&gt;Call Stack`으로 보낸다.&lt;br&gt;
+&lt;strong&gt;-Promise가 setTimeout보다 먼저 나오는 이유는 설계상 Callback Queue내부에 우선순위가 promise와 process에 있기 때문이다.&lt;/strong&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Javascript의 실행 컨텍스트]]></title><description><![CDATA[실행 컨텍스트(Execution Context)란? Execution은 실행 Context는 문맥이라는 의미로 코드가 실행되는 환경(문맥)이라고 할수 있다. JS에는 코드가 실행될때 동일한 조건은  이렇게 4가지이다. 다시말해, 위…]]></description><link>https://geniein.github.io/development/js_execution_context/</link><guid isPermaLink="false">https://geniein.github.io/development/js_execution_context/</guid><pubDate>Wed, 30 Mar 2022 02:10:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;실행-컨텍스트execution-context란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8execution-context%EB%9E%80&quot; aria-label=&quot;실행 컨텍스트execution context란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;실행 컨텍스트(Execution Context)란?&lt;/h1&gt;
+&lt;p&gt;Execution은 실행 Context는 문맥이라는 의미로 코드가 실행되는 환경(문맥)이라고 할수 있다.&lt;/p&gt;
+&lt;p&gt;JS에는 코드가 실행될때 동일한 조건은 &lt;code class=&quot;language-text&quot;&gt;전역공간, 함수, eval, 모듈&lt;/code&gt; 이렇게 4가지이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;//전역공간&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getSomething&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;//함수&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; module &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;os&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;//모듈&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;token function&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;console.dir(this)&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// eval&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다시말해, 위 4가지 조건을 실행할 때 필요한 환경정보를 담은 객체라고 설명 할수 있다.&lt;/p&gt;
+&lt;p&gt;실행 컨텍스트는 전역 컨텍스트(Global Context)와 함수 컨텍스트(Function Context) 2가지로 나뉜다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;전역 컨텍스트(Global Context)&lt;/code&gt;&lt;br&gt;
+자바스크립트가 처음 실행될때 생성되는 컨텍스트이며, 함수 컨텍스트를 제외한 전부라고 할수 있다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;함수 컨텍스트(Function Context)&lt;/code&gt;&lt;br&gt;
+함수가 호출되는 시점에 생성되고 해당 함수의 동작이 종료되면 소멸된다.&lt;/p&gt;
+&lt;h2 id=&quot;실행-컨텍스트내부-구조&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%82%B4%EB%B6%80-%EA%B5%AC%EC%A1%B0&quot; aria-label=&quot;실행 컨텍스트내부 구조 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;실행 컨텍스트내부 구조&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;VariableEnvironment&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;LexicalEnvironment&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;ThisBinding&lt;/code&gt;으로 3가지로 나뉜다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;VariableEnvironment&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;LexicalEnvironment&lt;/code&gt;에는 현재 환경과 관련된 식별자 정보들이 쌓이며 세부적으로 &lt;code class=&quot;language-text&quot;&gt;VariableEnvironment&lt;/code&gt;에는 식별자 정보가 담기며 변하지 않는 값들로 구성되고 &lt;code class=&quot;language-text&quot;&gt;LexicalEnvironment&lt;/code&gt;에는 각 식별자의 ‘데이터’ 추적하며 값들이 변할수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;LexicalEnvironment&lt;/code&gt;에는 &lt;code class=&quot;language-text&quot;&gt;environmentRecord&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;로 구성되는데, &lt;code class=&quot;language-text&quot;&gt;environmentRecord&lt;/code&gt;에는 현재 문맥의 식별자 정보 이 과정을 &lt;strong&gt;호이스팅(Hoisting)&lt;/strong&gt;이라고 부른다. &lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;는 현재 문맥에 관련 있는 &lt;strong&gt;외부&lt;/strong&gt; 식별자 정보를 참조한다. 이렇게 계속 외부를 참조하는 연결이 &lt;strong&gt;스코프 체인(SCOPE CHAIN)&lt;/strong&gt;이다.&lt;/p&gt;
+&lt;h3 id=&quot;실행-컨텍스트-예제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8-%EC%98%88%EC%A0%9C&quot; aria-label=&quot;실행 컨텍스트 예제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;실행 컨텍스트 예제&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; first &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;outer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;first&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; first &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;1st&apos;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;first&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;outer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;first&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;//result : 1 , 1st , 1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;inner&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;VariableEnvironment&lt;br/&gt;---------------------------&lt;br/&gt;LexicalEnvironment&lt;br/&gt;---------------------------&lt;br/&gt;ThisBinding&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;environmentRecord&lt;br/&gt;outerEnvironmentReference&lt;br/&gt;---------------------------------------&lt;br/&gt;environmentRecord&lt;br/&gt;outerEnvironmentReference&lt;br/&gt;---------------------------------------&lt;br/&gt; &lt;br/&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;outer&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;VariableEnvironment&lt;br/&gt;---------------------------&lt;br/&gt;LexicalEnvironment&lt;br/&gt;---------------------------&lt;br/&gt;ThisBinding&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;environmentRecord&lt;br/&gt;outerEnvironmentReference&lt;br/&gt;---------------------------------------&lt;br/&gt;environmentRecord&lt;br/&gt;outerEnvironmentReference&lt;br/&gt;---------------------------------------&lt;br/&gt; &lt;br/&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;전역 컨텍스트&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;VariableEnvironment&lt;br/&gt;--------------------------&lt;br/&gt;LexicalEnvironment&lt;br/&gt;--------------------------&lt;br/&gt;ThisBinding&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;environmentRecord&lt;br/&gt;----------------------------------&lt;br/&gt;environmentRecord&lt;br/&gt;----------------------------------&lt;br/&gt; window(web) 혹은 global(node)&lt;br/&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;예제의 실행컨텍스틑 위와 같은 그림을 그리고 있다.&lt;br&gt;
+실행컨텍스트를 단계별로 분석하며 위에서 부족한 설명을 보충해 보도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;예제가 실행되면 먼저 호출스택(Call Stack)가장 밑에는 전역컨텍스트가 들어옵니다.
+이후 전역 컨텍스트의 VariableEnvironment인 first와 outer이 선언됩니다.(&lt;strong&gt;호이스팅&lt;/strong&gt;)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;전역 컨텍스트&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;outer 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;outer 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;outer 선언&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first에 1 할당&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first에 1 할당&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;outer함수 호출&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;outer함수가 호출되면 &lt;code class=&quot;language-text&quot;&gt;함수 컨텍스트(Function Context)&lt;/code&gt;가 생성된다.&lt;br&gt;
+outer함수에는 inner함수를 선언하고 &lt;code class=&quot;language-text&quot;&gt;console.log(first)&lt;/code&gt;실행 이때 first는 outer 컨텍스트 내부에 없기에 &lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;를 통해
+상위단(전역컨텍스트)에서 first변수를 찾아 있으면 출력 없으면 그 상위단으로 다시 이동하지만 전역 컨텍스트에는 &lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;가 없는 마지막이기에 여기에도 없으면 &lt;code class=&quot;language-text&quot;&gt;undefined&lt;/code&gt;가 나오게된다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;outer 컨텍스트&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;inner 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;inner 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;inner 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 출력&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 출력&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;inner 호출&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;inner함수가 호출되면 &lt;code class=&quot;language-text&quot;&gt;함수 컨텍스트(Function Context)&lt;/code&gt;가 생성된다.
+inner함수 내부에는 first가 있기에 &lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;통한 참조가 필요가 없어 first의 출력이 &lt;strong&gt;1st&lt;/strong&gt;가 되게된다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;inner 컨텍스트&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 선언&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first에 1st 할당&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first에 1st 할당&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;first 출력&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;마지막 라인에 있는 first는 자신의 &lt;code class=&quot;language-text&quot;&gt;environmentRecord&lt;/code&gt;에 선언된 first가 있기에 해당 값을 출력한다.
+또한 inner함수의 first출력후 inner함수의 Function Execution은 종료되어 없어졌기에 1st라는 값은 사라진 상태이다.&lt;/p&gt;
+&lt;p&gt;이렇게 실행컨텍스트가 실행되고 &lt;code class=&quot;language-text&quot;&gt;environmentRecord&lt;/code&gt;에 식별자를 선언하는 것이 &lt;strong&gt;호이스팅(Hoisting)&lt;/strong&gt;이며
+&lt;code class=&quot;language-text&quot;&gt;outerEnvironmentReference&lt;/code&gt;를 통해 &lt;code class=&quot;language-text&quot;&gt;environmentRecord&lt;/code&gt;없는 값을 찾아 상위 Scope에서 찾는 것이 &lt;strong&gt;스코프 체인(SCOPE CHAIN)&lt;/strong&gt;이다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Javascript의 데이터 타입과 메모리]]></title><description><![CDATA[데이터 타입(Data type)과 메모리 데이터 타입 메모리 영역   Stack Memory Heap Memory 기본형 데이터 참조형 데이터 정적 할당 동적 할당 기본형 데이터 자바스크립트에서 기본형 데이터는 불변성(Immutability…]]></description><link>https://geniein.github.io/development/js_datatype_memory/</link><guid isPermaLink="false">https://geniein.github.io/development/js_datatype_memory/</guid><pubDate>Tue, 29 Mar 2022 18:10:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;데이터-타입data-type과-메모리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85data-type%EA%B3%BC-%EB%A9%94%EB%AA%A8%EB%A6%AC&quot; aria-label=&quot;데이터 타입data type과 메모리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 타입(Data type)과 메모리&lt;/h1&gt;
 &lt;h2 id=&quot;데이터-타입&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85&quot; aria-label=&quot;데이터 타입 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 타입&lt;/h2&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;+--Primitive Type
     --Number
@@ -236,8 +551,8 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
 &lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</content:encoded></item><item><title><![CDATA[Javascript의 핵심과 흐름]]></title><description><![CDATA[…]]></description><link>https://geniein.github.io/development/js_start/</link><guid isPermaLink="false">https://geniein.github.io/development/js_start/</guid><pubDate>Tue, 29 Mar 2022 17:50:00 GMT</pubDate><content:encoded>&lt;p&gt;자바스크립트를 공부하면서 항상 의문이였던 부분들과 잘 이해하지 못 하던 부분들을 반복적으로 똑같은 주제를 찾기보단 나의 글로 정리해보려고 한다.
-기본적인 문법 설명보다는 자바스크립트가 어떤 흐름으로 동작하는지와 수십번을 보아도 잘 이해가 안되전 execution context, this, closure의 개념에 대해서 나만의 방식으로 정리하는 글이다.&lt;/p&gt;
+&lt;/table&gt;</content:encoded></item><item><title><![CDATA[Javascript의 핵심과 흐름]]></title><description><![CDATA[…]]></description><link>https://geniein.github.io/development/js_start/</link><guid isPermaLink="false">https://geniein.github.io/development/js_start/</guid><pubDate>Tue, 29 Mar 2022 17:50:00 GMT</pubDate><content:encoded>&lt;p&gt;자바스크립트를 공부하면서 항상 의문이였던 부분들과 잘 이해하지 못 하던 부분들을 반복적으로 똑같은 주제를 찾기보단 나의 글로 정리해보려고 한다.&lt;br&gt;
+기본적인 문법 설명보다는 자바스크립트가 어떤 흐름으로 동작하는지와 수십번을 보아도 잘 이해가 안되던 execution context, this, closure의 개념에 대해서 나만의 방식으로 정리하는 글이다.&lt;/p&gt;
 &lt;p&gt;내가 생각하는 목차는 다음과 같다.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;데이터 타입(Data type)과 메모리&lt;/li&gt;
