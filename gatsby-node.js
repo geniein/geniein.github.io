@@ -1,80 +1,109 @@
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const componentWithMDXScope = require('gatsby-plugin-mdx/component-with-mdx-scope');
+
+const path = require('path');
+
+const startCase = require('lodash.startcase');
+
+const config = require('./config');
 
 exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
-  const blogPostTemplate = path.resolve(`./src/templates/blog-post.js`)
-
-  return graphql(
-    `
-      {
-        allMarkdownRemark(
-          filter: { frontmatter: { category: { ne: null }, draft: { eq: false } } }
-          sort: { fields: [frontmatter___date], order: DESC }
-          limit: 1000
-        ) {
-          edges {
-            node {
-              fields {
-                slug
-              }
-              frontmatter {
-                title
-                category
-              }
-            }
-            previous {
-              fields {
-                slug
-              }
-              frontmatter {
-                title
-              }
-            }
-            next {
-              fields {
-                slug
-              }
-              frontmatter {
-                title
+  return new Promise((resolve, reject) => {
+    resolve(
+      graphql(
+        `
+          {
+            allMdx {
+              edges {
+                node {
+                  fields {
+                    id
+                  }
+                  tableOfContents
+                  fields {
+                    slug
+                  }
+                }
               }
             }
           }
+        `
+      ).then(result => {
+        if (result.errors) {
+          console.log(result.errors); // eslint-disable-line no-console
+          reject(result.errors);
         }
-      }
-    `
-  ).then(result => {
-    if (result.errors) {
-      throw result.errors
+
+        // Create blog posts pages.
+        result.data.allMdx.edges.forEach(({ node }) => {
+          createPage({
+            path: node.fields.slug ? node.fields.slug : '/',
+            component: path.resolve('./src/templates/docs.js'),
+            context: {
+              id: node.fields.id,
+            },
+          });
+        });
+      })
+    );
+  });
+};
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+      alias: {
+        $components: path.resolve(__dirname, 'src/components'),
+        buble: '@philpl/buble', // to reduce bundle size
+      },
+    },
+  });
+};
+
+exports.onCreateBabelConfig = ({ actions }) => {
+  actions.setBabelPlugin({
+    name: '@babel/plugin-proposal-export-default-from',
+  });
+};
+
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type === `Mdx`) {
+    const parent = getNode(node.parent);
+
+    let value = parent.relativePath.replace(parent.ext, '');
+
+    if (value === 'index') {
+      value = '';
     }
 
-    // Create blog posts pages.
-    const posts = result.data.allMarkdownRemark.edges;
-    posts.forEach((post) => {
-      createPage({
-        path: post.node.fields.slug,
-        component: blogPostTemplate,
-        context: {
-          slug: post.node.fields.slug,
-          previous: post.next,
-          next: post.previous,
-        },
-      })
-    })
-  })
-}
-
-exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
-
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
+    if (config.gatsby && config.gatsby.trailingSlash) {
+      createNodeField({
+        name: `slug`,
+        node,
+        value: value === '' ? `/` : `/${value}/`,
+      });
+    } else {
+      createNodeField({
+        name: `slug`,
+        node,
+        value: `/${value}`,
+      });
+    }
 
     createNodeField({
-      name: `slug`,
+      name: 'id',
       node,
-      value,
-    })
+      value: node.id,
+    });
+
+    createNodeField({
+      name: 'title',
+      node,
+      value: node.frontmatter.title || startCase(parent.name),
+    });
   }
-}
+};
