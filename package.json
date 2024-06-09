@@ -4,6 +4,7 @@
   "description": "Documentation, built with mdx",
   "author": "Praveen <praveen@hasura.io> (@praveenweb)",
   "version": "0.0.1",
+  "homepage": "https://geniein.github.io/geniein.github.io",
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.12.13",
     "@emotion/react": "^11.1.5",
@@ -63,7 +64,8 @@
     "develop": "NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public -b gh-page"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
