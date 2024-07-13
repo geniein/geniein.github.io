@@ -51,14 +51,14 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# dotenv environment variables file
-.env
+# dotenv environment variable files
+.env*
 
 # gatsby files
 .cache/
 public
 
-# Mac files 
+# Mac files
 .DS_Store
 
 # Yarn
