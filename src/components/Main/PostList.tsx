@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import styled from '@emotion/styled'
 import PostItem from './PostItem'
 import { PostListItemType } from 'types/PostItem.types'
 
 type PostListProps = {
+  selectedCategory: string
   posts: PostListItemType[]
 }
 
@@ -22,16 +23,6 @@ type PostListProps = {
 //   }
 // }
 
-const POST_ITEM_DATA = {
-  title: 'Post Item Title',
-  date: '2020.01.29.',
-  categories: ['Testing'],
-  summary:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident repellat doloremque fugit quis rem temporibus! Maxime molestias, suntrem debitis odit harum impedit. Modi cupiditate harum dignissimos eos in corrupti!',
-  thumbnail:
-    'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbEaKNC%2Fbtq8ArPXtqQ%2F621XlhC6Pn30kkk9UCW4pk%2Fimg.png',
-  link: '<https://www.google.co.kr/>',
-}
 const PostListWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -47,20 +38,21 @@ const PostListWrapper = styled.div`
   }
 `
 
-const PostList: FunctionComponent<PostListProps> = function ({ posts }) {
+const PostList: FunctionComponent<PostListProps> = function ({ selectedCategory, posts }) {
+  const postListData = useMemo(
+    () =>
+      posts.filter(({ node: { frontmatter: { categories } } }: PostListItemType) =>
+        selectedCategory !== 'All'
+          ? categories.includes(selectedCategory)
+          : true,
+      ),
+    [selectedCategory],
+  )
   return (
     <PostListWrapper>
-      {posts.map(
-        ({
-          node: { id, frontmatter },
-        }: PostListItemType) => (
-          <PostItem
-            {...frontmatter}
-            link="https://www.google.co.kr/"
-            key={id}
-          />
-        ),
-      )}
+      {postListData.map(({ node: { id, frontmatter } }: PostListItemType) => (
+        <PostItem {...frontmatter} link="https://www.google.co.kr/" key={id} />
+      ))}
     </PostListWrapper>
   )
 }
