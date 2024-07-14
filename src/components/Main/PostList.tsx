@@ -12,7 +12,6 @@ const POST_ITEM_DATA = {
     'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbEaKNC%2Fbtq8ArPXtqQ%2F621XlhC6Pn30kkk9UCW4pk%2Fimg.png',
   link: '<https://www.google.co.kr/>',
 }
-
 const PostListWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -20,6 +19,12 @@ const PostListWrapper = styled.div`
   width: 768px;
   margin: 0 auto;
   padding: 50px 0 100px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding: 50px 20px;
+  }
 `
 
 const PostList: FunctionComponent = function () {
